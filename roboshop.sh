@@ -9,7 +9,7 @@ for instance in $@ #mongodb instance,
 do
     Instance_Id=$(aws ec2 run-instances --image-id $AMI_ID --instance-type t3.micro --security-group-ids $Security_group_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
 
-    if [ $instance -ne "frontend" ];then
+    if [ $instance != "frontend" ];then
         IP=$(aws ec2 describe-instances --instance-ids $Instance_Id --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
         Record_Name="$instance.$Domain_Name"
     else
