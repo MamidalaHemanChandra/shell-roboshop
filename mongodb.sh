@@ -24,10 +24,10 @@ fi
 
 Validation(){
     if [ $1 -ne 0 ];then
-        echo -e "$R $2 Installation Failed! $N" | tee -a $Logs_File
+        echo -e "$R $2  Failed! $N" | tee -a $Logs_File
         exit 1
     else
-        echo -e "$G $2 Installed Successfully! $N" | tee -a  $Logs_File
+        echo -e "$G $2  Successfully! $N" | tee -a  $Logs_File
     fi
 }
 
