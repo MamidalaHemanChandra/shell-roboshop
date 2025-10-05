@@ -45,7 +45,7 @@ else
     echo -e "$Y Roboshop System User Exists $N"
 fi
 
-mkdir /app 
+mkdir -p /app 
 Validation $? "Creating App Dir"
 
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>>$Logs_File
