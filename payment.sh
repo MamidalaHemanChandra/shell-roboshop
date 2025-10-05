@@ -54,6 +54,9 @@ Validation $? "Download Payment in Tmp "
 cd /app 
 Validation $? "Moving to App Dir"
 
+rm -rf /app/*
+Validation $? "Removing existing code"
+
 unzip /tmp/payment.zip &>>$Logs_File
 Validation $? "Unzip Payment"
  

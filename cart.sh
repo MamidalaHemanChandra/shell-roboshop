@@ -63,6 +63,9 @@ Validation $? "Moveing to App Directory"
 rm -rf /app/*
 Validation $? "Removing existing code"
 
+rm -rf /app/*
+Validation $? "Removing existing code"
+
 unzip /tmp/cart.zip &>>$Logs_File
 Validation $? "UnZip Cart"
 

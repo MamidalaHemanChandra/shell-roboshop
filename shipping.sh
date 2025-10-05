@@ -49,6 +49,9 @@ Validation $? "Download Shipping"
 cd /app
 Validation $? "Moving to App Dir" 
 
+rm -rf /app/*
+Validation $? "Removing existing code"
+
 unzip /tmp/shipping.zip
 Validation $? "Unzip Shipping"
  
