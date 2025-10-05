@@ -1,7 +1,7 @@
 #!/bin/bash
 
 UserId=$(id -u)
-Location=$PWD
+
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -18,7 +18,7 @@ echo "Script Started at : $(date)" | tee -a $Logs_File
 
 #Root=0,other than 0 =Normal user
 if [ $UserId -ne 0 ];then
-    echo -e "$R Take Root Access To run this Shell Script $N" | tee -a $Logs_File
+    echo -e "$R Take Root Access To run this Shell Script $N"
     exit 1
 fi
 
@@ -32,7 +32,7 @@ Validation(){
 }
 
 
-cp $Location/mongo.repo /etc/yum.repos.d/mongo.repo 
+cp mongo.repo /etc/yum.repos.d/mongo.repo 
 Validation $? "Mongo Repo Created"
 
 dnf install mongodb-org -y &>>$Logs_File
@@ -47,5 +47,5 @@ Validation $? "Started Mongodb"
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 Validation $? "Mongodb Config Changed"
 
-systemctl restart mongod
+systemctl restart mongod &>>$Logs_File
 Validation $? "Restarted Mongod"
