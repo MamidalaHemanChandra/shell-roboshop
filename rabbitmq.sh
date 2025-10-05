@@ -35,17 +35,17 @@ Validation(){
 cp $LocScript/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
 Validation $? "Rabbitmq Repo"
 
-dnf install rabbitmq-server -y
+dnf install rabbitmq-server -y &>>$Logs_File
 Validation $? "Install Rabbitmq Server"
 
-systemctl enable rabbitmq-server
+systemctl enable rabbitmq-server &>>$Logs_File
 Validation $? "Enable Rabbitmq Server"
 
-systemctl start rabbitmq-server
+systemctl start rabbitmq-server &>>$Logs_File
 Validation $? "Start Rabbitmq Server"
 
-rabbitmqctl add_user roboshop roboshop123
+rabbitmqctl add_user roboshop roboshop123 &>>$Logs_File
 Validation $? "Add User Roboshop"
 
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>$Logs_File
 Validation $? "Set permissions for Rabbitmq Server"
