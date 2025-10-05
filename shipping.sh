@@ -86,7 +86,7 @@ if [ $? -ne 0 ];then
     mysql -h $Host_Mysql -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$Logs_File
     mysql -h $Host_Mysql -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$Logs_File
 else
-    echo "Shipping data already exists"
+    echo -e "$Y Shipping data already exists $N"
 fi
 
 systemctl restart shipping
