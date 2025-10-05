@@ -73,7 +73,7 @@ cp  $LocScript/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$Logs_File
 echo "Mongodb cilent package Installed"
 
-DB_EXISTS=$(mongosh --quiet --host  $Host_Mongodb --eval "db.getMongo().getDBNames().indexOf('catlogue')")
+DB_EXISTS=$(mongosh --quiet --host  $Host_Mongodb --eval "db.getMongo().getDBNames().indexOf('catloguejjdd')")
 if [ $DB_EXISTS -le 0 ];then # -1,0 not exists,1 exist mongo database   
     mongosh --host $Host_Mongodb </app/db/master-data.js &>>$Logs_File
 else
