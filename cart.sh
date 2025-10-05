@@ -69,7 +69,6 @@ Validation $? "Removing existing code"
 unzip /tmp/cart.zip &>>$Logs_File
 Validation $? "UnZip Cart"
 
-
 npm install &>>$Logs_File
 Validation $? "Downloading Dependencies Nodejs"
 

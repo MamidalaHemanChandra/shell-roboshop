@@ -52,7 +52,7 @@ Validation $? "Moving to App Dir"
 rm -rf /app/*
 Validation $? "Removing existing code"
 
-unzip /tmp/shipping.zip
+unzip /tmp/shipping.zip &>>$Logs_File
 Validation $? "Unzip Shipping"
  
 mvn clean package &>>$Logs_File
