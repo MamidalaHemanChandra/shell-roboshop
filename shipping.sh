@@ -48,13 +48,13 @@ fi
 mkdir -p /app &>>$Logs_File
 Validation $? "App Dir"
 
-curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
+curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>>$Logs_File
 Validation $? "Download Shipping"
 
 cd /app
 Validation $? "Moving to App Dir" 
 
-rm -rf /app/*
+rm -rf /app/* 
 Validation $? "Removing existing code"
 
 unzip /tmp/shipping.zip &>>$Logs_File
