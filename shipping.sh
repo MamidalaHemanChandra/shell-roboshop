@@ -90,4 +90,4 @@ else
 fi
 
 systemctl restart shipping
-Validation $? "Install Mysql"
+Validation $? "Restart Shipping"
