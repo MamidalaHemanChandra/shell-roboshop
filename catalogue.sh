@@ -90,9 +90,9 @@ dnf install mongodb-mongosh -y &>>$Logs_File
 Validation $? "Install Mongodb"
 
 DB_EXISTS=$(mongosh --quiet --host "$Host_Mongodb" --eval "db.getMongo().getDBNames().indexOf('catlogue')")
-if [ $DB_EXISTS -le 0 ];then # -1,0 not exists,1 exist mongo database
+if [ $DB_EXISTS -le 0 ];then # -1,0 not exists,1 exist mongo database   
     mongosh --host $Host_Mongodb </app/db/master-data.js &>>$Logs_File
-    Validation $? "Enable Nodejs 20"
+    Validation $? "Loading Mongodb to catalogue"
 else
     echo -e "$Y Mongosh DB EXISTS $N"
 fi
