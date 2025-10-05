@@ -1,4 +1,7 @@
 #!/bin/bash
+set -euo pipefail
+
+trap 'echo "There is an Error in $LINENO, Command is: $BASH_COMMAND"' ERR
 
 UserId=$(id -u)
 
@@ -25,77 +28,57 @@ if [ $UserId -ne 0 ];then
     exit 1
 fi
 
-Validation(){
-    if [ $1 -ne 0 ];then
-        echo -e "$R $2  Failed! $N" | tee -a $Logs_File
-        exit 1
-    else
-        echo -e "$G $2  Successfully! $N" | tee -a  $Logs_File
-    fi
-}
-
 
 dnf module disable nodejs -y &>>$Logs_File
-Validation $? "Disable Nodejs"
 
 dnf module enable nodejs:20 -y &>>$Logs_File
-Validation $? "Enable Nodejs 20"
 
 dnf install nodejs -y &>>$Logs_File
-Validation $? "Install Nodejs 20"
+echo "Install Nodejs 20"
 
 id roboshop &>>$Logs_File
 if [ $? -ne 0 ];then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$Logs_File
-    Validation $? "Roboshop System User"
+    echo "Roboshop System User Created"
 else
     echo -e "$Y Roboshop System User Exists $N"
 fi
 
 mkdir -p /app 
-Validation $? "Create App Directory"
+echo "App Dir Created"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$Logs_File
-Validation $? "Download Catalogue"
+echo "Catalogue code moved to Tmp"
 
 cd /app 
-Validation $? "Moveing to App Directory"
 
 rm -rf /app/*
-Validation $? "Removing existing code"
 
 unzip /tmp/catalogue.zip &>>$Logs_File
-Validation $? "UnZip Catalogue"
-
+echo "Cataloue Zip"
 
 npm install &>>$Logs_File
-Validation $? "Downloading Dependencies Nodejs"
 
 cp $LocScript/catalogue.service /etc/systemd/system/catalogue.service
-Validation $? "Catalogue Service"
+echo "Catalogue Service Created"
 
 systemctl daemon-reload 
-Validation $? "Daemon Reload"
 
 systemctl enable catalogue &>>$Logs_File
-Validation $? "Enable Catalogue"
 
 systemctl start catalogue
-Validation $? "Start Catalogue"
 
 cp  $LocScript/mongo.repo /etc/yum.repos.d/mongo.repo
-Validation $? "Creating Mongo Repo"
 
 dnf install mongodb-mongosh -y &>>$Logs_File
-Validation $? "Install Mongodb"
+echo "Mongodb cilent package Installed"
 
-DB_EXISTS=$(mongosh --quiet --host  $Host_Mongodb --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+DB_EXISTS=$(mongosh --quiet --host  $Host_Mongodb --eval "db.getMongo().getDBNames().indexOf('catlogue')")
 if [ $DB_EXISTS -le 0 ];then # -1,0 not exists,1 exist mongo database   
     mongosh --host $Host_Mongodb </app/db/master-data.js &>>$Logs_File
-    Validation $? "Loading Mongodb to catalogue"
 else
     echo -e "$Y Mongosh DB EXISTS $N"
 fi
 
 systemctl restart catalogue
-Validation $? "Restart Catalogue"
+
