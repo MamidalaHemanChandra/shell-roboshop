@@ -32,20 +32,15 @@ Validation(){
 }
 
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo 
-Validation $? "Mongo Repo Created"
 
-dnf install mongodb-org -y &>>$Logs_File
-Validation $? "Installed Mongodb"
+dnf install mysql-server -y &>>$Logs_File
+Validation $? "Install Mysql server"
 
-systemctl enable mongod &>>$Logs_File
-Validation $? "Enabled Mongodb"
+systemctl enable mysqld &>>$Logs_File
+Validation $? "Enable Mysql"
 
-systemctl start mongod &>>$Logs_File
-Validation $? "Started Mongodb"
+systemctl start mysqld &>>$Logs_File
+Validation $? "Start Mysql"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-Validation $? "Mongodb Config Changed"
-
-systemctl restart mongod &>>$Logs_File
-Validation $? "Restarted Mongod"
+mysql_secure_installation --set-root-pass RoboShop@1 &>>$Logs_File
+Validation $? "Set Root Passwd"

@@ -32,20 +32,20 @@ Validation(){
 }
 
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo 
-Validation $? "Mongo Repo Created"
+dnf module disable redis -y &>>$Logs_File
+Validation $? "Disable Redis"
 
-dnf install mongodb-org -y &>>$Logs_File
-Validation $? "Installed Mongodb"
+dnf module enable redis:7 -y &>>$Logs_File
+Validation $? "Enable Redis:7"
 
-systemctl enable mongod &>>$Logs_File
-Validation $? "Enabled Mongodb"
+dnf install redis -y &>>$Logs_File
+Validation $? "Install Redis"
 
-systemctl start mongod &>>$Logs_File
-Validation $? "Started Mongodb"
+sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/c protected-mode no' /etc/redis/redis.conf &>>$Logs_File
+Validation $? "Redis Config to Public"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-Validation $? "Mongodb Config Changed"
+systemctl enable redis &>>$Logs_File
+Validation $? "Enable Redis"
 
-systemctl restart mongod &>>$Logs_File
-Validation $? "Restarted Mongod"
+systemctl start redis &>>$Logs_File
+Validation $? "Start Redis" 

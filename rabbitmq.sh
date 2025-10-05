@@ -6,6 +6,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+LocScript=$PWD
 
 Logs_Folder="/var/log/shell-roboshop"
 Script_Name=$( echo $0 | cut -d "." -f1 )
@@ -31,21 +32,20 @@ Validation(){
     fi
 }
 
+cp $LocScript/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
+Validation $? "Rabbitmq Repo"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo 
-Validation $? "Mongo Repo Created"
+dnf install rabbitmq-server -y
+Validation $? "Install Rabbitmq Server"
 
-dnf install mongodb-org -y &>>$Logs_File
-Validation $? "Installed Mongodb"
+systemctl enable rabbitmq-server
+Validation $? "Enable Rabbitmq Server"
 
-systemctl enable mongod &>>$Logs_File
-Validation $? "Enabled Mongodb"
+systemctl start rabbitmq-server
+Validation $? "Start Rabbitmq Server"
 
-systemctl start mongod &>>$Logs_File
-Validation $? "Started Mongodb"
+rabbitmqctl add_user roboshop roboshop123
+Validation $? "Add User Roboshop"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-Validation $? "Mongodb Config Changed"
-
-systemctl restart mongod &>>$Logs_File
-Validation $? "Restarted Mongod"
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+Validation $? "Set permissions for Rabbitmq Server"
