@@ -44,7 +44,7 @@ Validation $? "Enable Rabbitmq Server"
 systemctl start rabbitmq-server &>>$Logs_File
 Validation $? "Start Rabbitmq Server"
 
-id roboshop &>>$Logs_File
+rabbitmqctl list_users | grep -w roboshop &>>$LOGS_FILE
 if [ $? -ne 0 ];then
     rabbitmqctl add_user roboshop roboshop123 &>>$Logs_File
     rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>$Logs_File
