@@ -45,7 +45,7 @@ else
     echo -e "$Y Roboshop System User Exists $N"
 fi
 
-mkdir -p /app 
+mkdir -p /app &>>$Logs_File
 Validation $? "App Dir"
 
 curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
@@ -65,6 +65,8 @@ Validation $? "Install Maven Pacakages"
 
 mv target/shipping-1.0.jar shipping.jar &>>$Logs_File
 Validation $? "Moving Shipping"
+
+cp $LocScript/shipping.service /etc/systemd/system/shipping.service &>>$Logs_File
 
 systemctl daemon-reload
 Validation $? "Daemon Reload"
