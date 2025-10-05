@@ -49,7 +49,7 @@ if [ $? -ne 0 ];then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$Logs_File
     Validation $? "Roboshop System User"
 else
-    echo "$Y Roboshop System User Exists $N"
+    echo -e "$Y Roboshop System User Exists $N"
 fi
 
 mkdir -p /app 
