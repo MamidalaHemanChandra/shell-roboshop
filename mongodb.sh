@@ -41,11 +41,11 @@ Validation $? "Installed Mongodb"
 systemctl enable mongod &>>$Logs_File
 Validation $? "Enabled Mongodb"
 
-systemctl start mongod &>>$Logs_File
+systemctl start mongod 
 Validation $? "Started Mongodb"
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 Validation $? "Mongodb Config Changed"
 
-systemctl restart mongod &>>$Logs_File
+systemctl restart mongod 
 Validation $? "Restarted Mongod"
